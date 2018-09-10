@@ -26,6 +26,10 @@ class Config(object):
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
 
+    # Celery configuration
+    CELERY_BROKER_URL= 'redis://localhost:6379'
+    CELERY_RESULT_BACKEND= 'redis://localhost:6379'
+
 
 class DevelopmentConfiguration(Config):
     DEBUG = True

@@ -3,6 +3,7 @@ from flask_restful import Resource
 
 from api.helpers import response_json
 from api.models import User
+from main import email_notification
 
 class UserResource(Resource):
     def post(self):
@@ -27,6 +28,7 @@ class UserResource(Resource):
                             password=password)
                 user.save()
                 token = user.generate_auth_token()
+                email_notification('Welcome', [email])
                 user_data = {
                     'user': {
                         'username': username,
@@ -44,11 +46,11 @@ class UserResource(Resource):
             }
             return response_json(400, error_message)
 
-        # except:
-        #     error_message = {
-        #         'errors': {
-        #             'message': 'Something went wrong'
-        #         }
-        #     }
-        #     return response_json(500, error_message)
+        except:
+            error_message = {
+                'errors': {
+                    'message': 'Something went wrong'
+                }
+            }
+            return response_json(500, error_message)
 
